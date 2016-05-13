@@ -42,10 +42,6 @@ def get_bids_data():
 
 #### ROUTES ####
 
-@app.route("/product")
-def product():
-    return render_template("product/index.html")
-
 @app.route("/", methods=["GET", "POST"])
 def login():
 	if request.method == "POST":
@@ -61,7 +57,7 @@ def profit():
 		if not profit_margin:
 			return "Error!"
 		# input_profit_margin(profit_margin)
-		return "Profit margin: {}. Saved! <a href='/dashboard'>Back</a>".format(profit_margin)
+		return "Profit margin: {}. Saved! <a href='/dashboard'>Dashboard</a>".format(profit_margin)
 	profit_data = get_profit_data()
 	return render_template("profits.html", data=profit_data)
 
@@ -71,7 +67,7 @@ def recommended():
 		selected_ids = map(lambda x: int(x), request.form)
 		print selected_ids
 		# final_dp_list(selected_ids) 
-		return "Your preferences have been saved! <a href='/dashboard'>Back</a>" 
+		return "Your preferences have been saved! <a href='/dashboard'>Dashboard</a>" 
 	products = initial_dp_list()
 	return render_template("dashboard.html", data=products)
 	
