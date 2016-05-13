@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Navbar Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/static/css/bootstrap-switch.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/navbar.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <style>
+      div.dash {
+        background: #ddd;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      div.dash h2 {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">PriceIT!</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Welcome</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="/product">Status</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/">logout</a></li>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main component for a primary marketing message or call to action -->
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h3>Analytics</h3>
+          <div class="dash">
+            <p> Total Bids </p>
+            <h2> {{ data.total }} </h2>
+          </div>
+          <div class="dash">
+            <p> Total Accepted </p>
+            <h2> {{ data.accepted }} </h2>
+          </div>
+          <div class="dash">
+            <p> Profit Earned </p>
+            <h2> ${{ data.profit }} </h2>
+          </div>
+        </div>
+        
+       <div class="col-sm-9">
+         <h3>Customers</h3>
+         <canvas id="customer-chart" width="400" height="200"></canvas>
+       </div>
+        
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.1/Chart.bundle.min.js"></script>
+    
+    <script type="text/javascript"> 
+
+    var myChart = new Chart(document.getElementById("customer-chart"), {
+        type: 'bar',
+        data: {
+        labels: ["Silver", "Gold", "Platinum"],
+        datasets: [
+            {
+                label: "Customer Class",
+                backgroundColor: "rgba(69, 58, 73,0.6)",
+                borderColor: "rgba(69, 58, 73,1)",
+                data: {{ cust_data | tojson | safe }}
+            }
+          ]
+       },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });  
+    
+    myChart.datasets[0].bars[0].fillColor = "black";
+    myChart.update();  
+      
+    </script>
+  </body>
+</html>
+

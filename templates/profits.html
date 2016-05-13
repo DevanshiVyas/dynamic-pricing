@@ -70,55 +70,29 @@
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <h1>Dashboard</h1>
-        <p>Product Analytics</p>
-        <canvas id="product-chart" width="400" height="100"></canvas>
-        <!--
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
-        --!>
+      <div class="row">
+        <div class="col-sm-12">
+        <h1>Profit Trends</h1>
+        </div>
       </div>
 
       <div class="row">
-        <div class="col-sm-12">
-        <h1>Choose Products</h1>
-          <table class="table table-bordered">
-              <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Product Name</th>
-                      <th>Product count</th>
-                      <th>Inventory Size</th>
-                      <th>Choose</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <th scope="row">1</th>
-                      <td>iPhone 5s</td>
-                      <td>124</td>
-                      <td>203</td>
-                      <td><input type="checkbox" checked></td>
-                  </tr>
-                  <tr>
-                      <th scope="row">2</th>
-                      <td>LG TV</td>
-                      <td>43</td>
-                      <td>501</td>
-                      <td><input type="checkbox" checked></td>
-                  </tr>
-                  <tr>
-                      <th scope="row">3</th>
-                      <td>Samsung Galaxy</td>
-                      <td>432</td>
-                      <td>1044</td>
-                      <td><input type="checkbox" checked></td>
-                  </tr>
-              </tbody>
-          </table>
+        <div class="col-sm-3">
+        <h5>Profit Margin</h5>
+        <p>Set profit margin for today</p>
+        
+        <form action="/profits" method="post">
+          <input type="number" name="profit_input">
+             <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
         </div>
+        
+       <div class="col-sm-9">
+         <h5>Current Performance</h5>
+         <canvas id="sales-chart" width="400" height="100"></canvas>
+         <canvas id="margin-chart" width="400" height="100"></canvas>
+       </div>
+        
       </div>
 
     </div> <!-- /container -->
@@ -131,7 +105,64 @@
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.1/Chart.bundle.min.js"></script>
     <script src="/static/js/bootstrap-switch.min.js"></script>
-    <script src="/static/js/dashboard.js"></script>
+    
+    
+    <script type="text/javascript">   
+    var profit_data = {{ data | tojson | safe}};
+
+    var myChart = new Chart(document.getElementById("sales-chart"), {
+        type: 'line',
+        data: {
+        labels: ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"],
+        datasets: [
+            {
+                label: "Sales",
+                backgroundColor: "rgba(69, 58, 73,0.6)",
+                borderColor: "rgba(69, 58, 73,1)",
+                data: profit_data.map(function(d) {
+                  return d[0];
+                })
+            }
+          ]
+       },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    
+    var myChart1 = new Chart(document.getElementById("margin-chart"), {
+        type: 'line',
+        data: {
+        labels: ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"],
+        datasets: [
+            {
+                label: "Profit Margin",
+                backgroundColor: "RGBA(141, 127, 147, 0.6)",
+                borderColor: "RGB(141, 127, 147)",
+                data: profit_data.map(function(d) {
+                  return d[1];
+                })
+            }
+          ]
+       },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+      
+    </script>
   </body>
 </html>
 
