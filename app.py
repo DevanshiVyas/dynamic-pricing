@@ -79,5 +79,14 @@ def analytics():
 							data=bids_data,
 							cust_data=cust_data)
 
+@app.route('/customer', methods=["POST", "GET"])
+def customer():
+	if request.method == "POST":
+		cust_id = request.form["cust_id"]
+		bid_amount = request.form["bid_amount"]
+		print cust_id, bid_amount
+		return "Your bid has been recorded! <a href='/analytics'>See Bids</a>"
+	return render_template("customer.html")
+	
 if __name__ == "__main__":
 	app.run(debug=True)

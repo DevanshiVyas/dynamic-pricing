@@ -12,3 +12,4 @@ $ python app.py
 - `\products` Dashboard
 - `\analytics` Analytics
 - `\profits` Profit Margin
+- `\customer` Customer
